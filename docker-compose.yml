@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  microservicecommunication.catalog:
+    image: ${DOCKER_REGISTRY-}microservicecommunicationcatalog
+    build:
+      context: .
+      dockerfile: src/Services/MicroserviceCommunication.Catalog/Dockerfile
