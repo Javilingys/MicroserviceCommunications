@@ -1,9 +1,18 @@
+using MicroserviceCommunication.Catalog.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddDbContext<CatalogDbContext>(opt =>
+{
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -16,10 +25,31 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+// for Development purposes
+using var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
+var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+logger.LogInformation($"--> {builder.Configuration.GetConnectionString("Default")}");
+try
+{
+    logger.LogInformation("--> Start migration...");
+    await context.Database.MigrateAsync();
+
+    context.Database.BeginTransaction();
+    await DbInitializer.Initialize(context);
+    context.Database.CommitTransaction();
+}
+catch (Exception ex)
+{
+    context.Database.RollbackTransaction();
+    logger.LogError(ex, "Error during migration...");
+}
+
+await app.RunAsync();

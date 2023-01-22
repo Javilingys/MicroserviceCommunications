@@ -6,7 +6,7 @@
     <ProjectGuid>b80f345f-d926-4734-9370-b4ce2945357a</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>microservicecommunication.catalog</DockerServiceName>
+    <DockerServiceName>catalog</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
