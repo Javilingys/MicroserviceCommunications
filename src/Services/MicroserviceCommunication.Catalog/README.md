@@ -8,7 +8,6 @@
 * **EF Core** such an ORM
 * **AutoMapper** for map from Entity to DTO
 
-
 ## TODO:
 
 - [ ] desctributed redis cache
