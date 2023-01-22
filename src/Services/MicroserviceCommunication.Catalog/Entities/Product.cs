@@ -2,7 +2,7 @@
 
 namespace MicroserviceCommunication.Catalog.Entities
 {
-    public class Product
+    public sealed class Product
     {
         public int Id { get; set; }
 

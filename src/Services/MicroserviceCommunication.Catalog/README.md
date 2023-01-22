@@ -10,7 +10,7 @@
 
 ## TODO:
 
-- [ ] AutoMapper
+- [x] Map to DTO
 - [ ] desctributed redis cache
 - [ ] rabbitmq + masstransit while update product
 - [ ] kaffka + masstransit while update product

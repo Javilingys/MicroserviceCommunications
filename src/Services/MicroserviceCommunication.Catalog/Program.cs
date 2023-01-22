@@ -1,4 +1,5 @@
 using MicroserviceCommunication.Catalog.Data;
+using MicroserviceCommunication.Catalog.MapperProfiles;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<CatalogDbContext>(opt =>
 {
     opt.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
+builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -48,7 +50,10 @@ try
 }
 catch (Exception ex)
 {
-    context.Database.RollbackTransaction();
+    if (context.Database.CurrentTransaction is not null)
+    {
+        context.Database.RollbackTransaction();
+    }
     logger.LogError(ex, "Error during migration...");
 }
 

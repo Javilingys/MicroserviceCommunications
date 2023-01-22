@@ -1,6 +1,6 @@
 ﻿namespace MicroserviceCommunication.Catalog.Entities
 {
-    public class ProductType
+    public sealed class ProductType
     {
         public int Id { get; set; }
 
