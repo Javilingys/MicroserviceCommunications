@@ -29,6 +29,7 @@ namespace MicroserviceCommunication.Catalog.Controllers
         {
             _logger.LogInformation("--> Get Products from Catalog Service");
 
+            // ProjectTo - is analogy of .Select(x => new ProductReadDto{ ... }). For optimzie database query
             var products = await _context.Products
                 .Include(x => x.ProductBrand)
                 .Include(x => x.ProductType)
