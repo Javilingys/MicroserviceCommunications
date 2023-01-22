@@ -8,6 +8,7 @@ namespace MicroserviceCommunication.Catalog.MapperProfiles
     {
         public ProductProfile()
         {
+            // Because ProductReadDto is immutable record - we need map to consturctore params instead members
             CreateMap<Product, ProductReadDto>()
                 .ForCtorParam("Color", opt => opt.MapFrom(src => src.ProductColor.ToString()))
                 .ForCtorParam("ProductType", opt => opt.MapFrom(src => src.ProductType.Title))
