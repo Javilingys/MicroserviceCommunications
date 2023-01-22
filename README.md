@@ -5,7 +5,7 @@
 
 *Also this project DOESN'T containe any meaningful logic. It's just a set of **random** microservices with **random** logic. Only communication and other stuff matters*
 
-*This project may and probably should contain bugs and bad code. But it's only for myself train purposes.*
+### This project may and probably should contains bugs and bad code. But it's only for myself train purposes.
 
 ## SERVICES:
 

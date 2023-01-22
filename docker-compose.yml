@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  catalogData:
+    image: postgres
+
+  adminer:
+    image: adminer
+
   catalog:
     image: ${DOCKER_REGISTRY-}catalog
     build:
@@ -9,8 +15,8 @@ services:
     depends_on:
       - catalogData
 
-  catalogData:
-    image: postgres
-
-  adminer:
-    image: adminer
+  basket:
+    image: ${DOCKER_REGISTRY-}basket
+    build:
+      context: .
+      dockerfile: src/Services/MicroserviceCommunication.Basket/Dockerfile
