@@ -11,9 +11,9 @@
 
 ## TODO:
 
-- [ ] redis cache
-- [ ] rabbitmq + masstransit
-- [ ] kaffka + masstransit
+- [ ] desctributed redis cache
+- [ ] rabbitmq + masstransit while update product
+- [ ] kaffka + masstransit while update product
 - [ ] rest controller
 - [ ] grpc
 - [ ] polly
