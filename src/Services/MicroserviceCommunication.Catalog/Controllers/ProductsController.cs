@@ -41,9 +41,18 @@ namespace MicroserviceCommunication.Catalog.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Product>>> CreateProduct(CancellationToken cancellationToken)
+        public async Task<ActionResult<List<Product>>> CreateProduct([FromBody] ProductCreateDto createDto, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("--> Starting of CREATE product process from Catalog Service...");
+            _logger.LogInformation("--> Starting CREATE product process from Catalog Service...");
+
+            var product = new Product()
+            {
+
+            };
+
+            _context.Products.Add(product);
+
+            await _context.SaveChangesAsync();
             
             return Ok();
         }
@@ -51,7 +60,7 @@ namespace MicroserviceCommunication.Catalog.Controllers
         [HttpPut]
         public async Task<ActionResult<List<Product>>> UpdateProduct(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("--> Starting of UPDATE product process from Catalog Service...");
+            _logger.LogInformation("--> Starting UPDATE product process from Catalog Service...");
             
             return Ok();
         }
