@@ -11,11 +11,14 @@
 ## TODO:
 
 - [x] Map to DTO
+- [ ] Post Method (Create Product) 
 - [ ] desctributed redis cache
-- [ ] rabbitmq + masstransit while update product
-- [ ] kaffka + masstransit while update product
+- [ ] rabbitmq + masstransit on create product
+- [ ] kaffka + masstransit on create product
+- [ ] rabbitmq + masstransit on update product
+- [ ] kaffka + masstransit on update product
 - [ ] rest controller
 - [ ] grpc
-- [ ] polly
+- [x] polly
 - [ ] Health Checks
 - [ ] ...

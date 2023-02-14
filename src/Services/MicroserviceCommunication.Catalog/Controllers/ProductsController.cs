@@ -25,7 +25,7 @@ namespace MicroserviceCommunication.Catalog.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts()
+        public async Task<ActionResult<List<Product>>> GetProducts(CancellationToken cancellationToken)
         {
             _logger.LogInformation("--> Get Products from Catalog Service");
 
@@ -35,9 +35,25 @@ namespace MicroserviceCommunication.Catalog.Controllers
                 .Include(x => x.ProductType)
                 .Take(50)
                 .ProjectTo<ProductReadDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return Ok(products);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Product>>> CreateProduct(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("--> Starting of CREATE product process from Catalog Service...");
+            
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<List<Product>>> UpdateProduct(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("--> Starting of UPDATE product process from Catalog Service...");
+            
+            return Ok();
         }
     }
 }

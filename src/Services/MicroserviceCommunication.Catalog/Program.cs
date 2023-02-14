@@ -33,27 +33,21 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// for Development purposes
 using var scope = app.Services.CreateScope();
-var context = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
-logger.LogInformation($"--> {builder.Configuration.GetConnectionString("Default")}");
 try
 {
-    logger.LogInformation("--> Start migration...");
-    await context.Database.MigrateAsync();
+    logger.LogInformation("--> Applying migrations in Catalog Service");
 
-    context.Database.BeginTransaction();
-    await DbInitializer.Initialize(context);
-    context.Database.CommitTransaction();
+    app.MigrateDbContext<CatalogDbContext>((context, services) =>
+    {
+        var logger = services.GetService<ILogger<CatalogContextSeed>>();
+
+        new CatalogContextSeed().SeedAsync(context, logger).Wait();
+    });
 }
 catch (Exception ex)
 {
-    if (context.Database.CurrentTransaction is not null)
-    {
-        context.Database.RollbackTransaction();
-    }
     logger.LogError(ex, "Error during migration...");
 }
 
