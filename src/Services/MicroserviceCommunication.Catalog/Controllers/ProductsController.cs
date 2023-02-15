@@ -47,7 +47,11 @@ namespace MicroserviceCommunication.Catalog.Controllers
 
             var product = new Product()
             {
-
+                ProductColor = createDto.ProductColor,
+                Price = createDto.Price,
+                ImageUrl = createDto.ImageUrl,
+                Description = createDto.Description,
+                Title = createDto.Title
             };
 
             _context.Products.Add(product);
