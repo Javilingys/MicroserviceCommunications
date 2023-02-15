@@ -51,7 +51,9 @@ namespace MicroserviceCommunication.Catalog.Controllers
                 Price = createDto.Price,
                 ImageUrl = createDto.ImageUrl,
                 Description = createDto.Description,
-                Title = createDto.Title
+                Title = createDto.Title,
+                ProductBrandId = createDto.ProductBrandId,
+                ProductTypeId = createDto.ProductTypeId
             };
 
             _context.Products.Add(product);

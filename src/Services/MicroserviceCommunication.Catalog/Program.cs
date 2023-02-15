@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+using MassTransit;
 using MicroserviceCommunication.Catalog.Data;
 using MicroserviceCommunication.Catalog.MapperProfiles;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,11 @@ builder.Services.AddDbContext<CatalogDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
 builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
+
+builder.Services.AddMassTransit(busConfigurator =>
+{
+    busConfigurator.UsingInMemory();
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -33,22 +40,27 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using var scope = app.Services.CreateScope();
-var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-try
-{
-    logger.LogInformation("--> Applying migrations in Catalog Service");
-
-    app.MigrateDbContext<CatalogDbContext>((context, services) =>
-    {
-        var logger = services.GetService<ILogger<CatalogContextSeed>>();
-
-        new CatalogContextSeed().SeedAsync(context, logger).Wait();
-    });
-}
-catch (Exception ex)
-{
-    logger.LogError(ex, "Error during migration...");
-}
+MigrateAndSeedDatabase();
 
 await app.RunAsync();
+
+void MigrateAndSeedDatabase()
+{
+    using var scope = app.Services.CreateScope();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    try
+    {
+        logger.LogInformation("--> Applying migrations in Catalog Service");
+
+        app.MigrateDbContext<CatalogDbContext>((context, services) =>
+        {
+            var logger = services.GetService<ILogger<CatalogContextSeed>>();
+
+            new CatalogContextSeed().SeedAsync(context, logger).Wait();
+        });
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Error during migration...");
+    }
+}

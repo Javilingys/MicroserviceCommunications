@@ -8,6 +8,8 @@ namespace MicroserviceCommunication.Catalog.DTOs
         decimal Price,
         string ImageUrl,
         ProductColor ProductColor,
-        string FiledForCatalogService
+        string FiledForCatalogService,
+        int ProductBrandId,
+        int ProductTypeId
     );
 }
